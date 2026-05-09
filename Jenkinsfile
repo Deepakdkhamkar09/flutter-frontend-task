@@ -3,11 +3,7 @@ pipeline {
 
     stages {
 
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/Deepakdkhamkar09/flutter-frontend-task.git'
-            }
-        }
+    
 
         stage('Flutter Pub Get') {
             steps {
