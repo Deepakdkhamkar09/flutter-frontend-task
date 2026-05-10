@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        FLUTTER_HOME = "D:\\flutter"
+        FLUTTER_HOME = "D:\\Flutter\\flutter_windows_3.41.9-stable\\flutter"
+
     }
 
     stages {
