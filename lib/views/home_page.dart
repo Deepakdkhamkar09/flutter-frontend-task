@@ -36,24 +36,28 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 12),
             CustomTextField(
               controller: controller.nameController,
+              focusNode: controller.nameFocusNode,
               label: 'Name',
               hint: 'Enter user name',
             ),
             const SizedBox(height: 12),
             CustomTextField(
               controller: controller.emailController,
+              focusNode: controller.emailFocusNode,
               label: 'Email',
               hint: 'Enter user email',
               keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 16),
-            Obx(() => CustomButton(
-                  text: 'Create User',
-                  onPressed: controller.createUser,
-                  isLoading: controller.isCreating.value,
-                )),
+            Obx(
+              () => CustomButton(
+                text: 'Create User',
+                onPressed: controller.createUser,
+                isLoading: controller.isCreating.value,
+              ),
+            ),
             const SizedBox(height: 24),
-            
+
             // Users List Section
             const Text(
               'Users List',
@@ -65,13 +69,18 @@ class HomePage extends StatelessWidget {
                 if (controller.isLoading.value) {
                   return const AppLoader();
                 }
-                
-                if (controller.errorMessage.value.isNotEmpty && controller.users.isEmpty) {
+
+                if (controller.errorMessage.value.isNotEmpty &&
+                    controller.users.isEmpty) {
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                        const Icon(
+                          Icons.error_outline,
+                          size: 48,
+                          color: Colors.red,
+                        ),
                         const SizedBox(height: 16),
                         Text(
                           controller.errorMessage.value,
@@ -107,7 +116,9 @@ class HomePage extends StatelessWidget {
                       child: ListTile(
                         leading: CircleAvatar(
                           child: Text(
-                            user.name.isNotEmpty ? user.name[0].toUpperCase() : '?',
+                            user.name.isNotEmpty
+                                ? user.name[0].toUpperCase()
+                                : '?',
                           ),
                         ),
                         title: Text(user.name),

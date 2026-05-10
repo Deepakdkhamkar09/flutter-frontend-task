@@ -11,6 +11,8 @@ class UserController extends GetxController {
 
   final nameController = TextEditingController();
   final emailController = TextEditingController();
+  final nameFocusNode = FocusNode();
+  final emailFocusNode = FocusNode();
 
   final RxList<UserModel> users = <UserModel>[].obs;
   final RxBool isLoading = false.obs;
@@ -27,6 +29,8 @@ class UserController extends GetxController {
   void onClose() {
     nameController.dispose();
     emailController.dispose();
+    nameFocusNode.dispose();
+    emailFocusNode.dispose();
     super.onClose();
   }
 
@@ -34,10 +38,9 @@ class UserController extends GetxController {
     try {
       isLoading.value = true;
       errorMessage.value = '';
-      
+
       final fetchedUsers = await _userRepository.getUsers();
       users.assignAll(fetchedUsers);
-      
     } catch (e) {
       errorMessage.value = e.toString().replaceAll('Exception: ', '');
       AppSnackbar.showError('Error', errorMessage.value);
@@ -51,24 +54,28 @@ class UserController extends GetxController {
     final email = emailController.text.trim();
 
     if (name.isEmpty || email.isEmpty) {
-      AppSnackbar.showError('Validation Error', 'Please enter both name and email');
+      AppSnackbar.showError(
+        'Validation Error',
+        'Please enter both name and email',
+      );
       return;
     }
 
     try {
       isCreating.value = true;
       final user = UserModel(name: name, email: email);
-      
+
       await _userRepository.createUser(user);
-      
+
       AppSnackbar.showSuccess('Success', 'User created successfully');
-      
+
+      nameFocusNode.unfocus();
+      emailFocusNode.unfocus();
       nameController.clear();
       emailController.clear();
-      
+
       // Refresh list
       fetchUsers();
-      
     } catch (e) {
       final msg = e.toString().replaceAll('Exception: ', '');
       AppSnackbar.showError('Error', msg);
