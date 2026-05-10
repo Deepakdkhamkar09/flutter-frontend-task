@@ -8,12 +8,6 @@ pipeline {
 
     stages {
 
-        stage('Flutter Doctor') {
-            steps {
-                bat '"%FLUTTER_HOME%\\bin\\flutter.bat" doctor'
-            }
-        }
-
         stage('Flutter Pub Get') {
             steps {
                 bat '"%FLUTTER_HOME%\\bin\\flutter.bat" pub get'
@@ -25,5 +19,11 @@ pipeline {
                 bat '"%FLUTTER_HOME%\\bin\\flutter.bat" build apk --release'
             }
         }
+        
+        post {
+        success {
+            archiveArtifacts artifacts: 'build/app/outputs/flutter-apk/*.apk', followSymlinks: false
+        }
+    }
     }
 }
