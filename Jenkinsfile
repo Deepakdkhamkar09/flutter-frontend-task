@@ -19,11 +19,11 @@ pipeline {
                 bat '"%FLUTTER_HOME%\\bin\\flutter.bat" build apk --release'
             }
         }
-        
-        post {
+    }
+    post {
         success {
             archiveArtifacts artifacts: 'build/app/outputs/flutter-apk/*.apk', followSymlinks: false
         }
-    }
+    
     }
 }
