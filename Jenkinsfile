@@ -2,11 +2,16 @@ pipeline {
     agent any
 
     environment {
-        FLUTTER_HOME = "D:\\Flutter versions\\flutter_windows_3.41.9-stable\\flutter"
+        FLUTTER_HOME = "D:\\flutter"
     }
 
     stages {
 
+        stage('Flutter Doctor') {
+            steps {
+                bat '"%FLUTTER_HOME%\\bin\\flutter.bat" doctor'
+            }
+        }
 
         stage('Flutter Pub Get') {
             steps {
